@@ -1,6 +1,7 @@
 let playerScore = 0;
 let computerScore = 0;
 
+
 //This function randomly makes the computer choose Rock/Paper/Scissors
 function getComputerChoice(){
     let randomNumber = Math.floor(Math.random()*3) +1;
@@ -14,56 +15,82 @@ function getComputerChoice(){
     }
 }
 
+function addScoreToPlayer(){
+    let pScore = document.getElementById('playerScore');
+    pScore.style.color = 'black';
+    pScore.textContent = playerScore;
+}
+
+function addScoreToComputer(){
+    let cScore = document.getElementById('computerScore');
+    cScore.style.color = 'black';
+    cScore.textContent = computerScore;
+}
+
 function playGame(playerSelection, computerSelection){
-    playerSelection = prompt("What do you select? Rock, Paper or Scissors? Choose wisely...","" );
+    getComputerChoice();
     computerSelection = getComputerChoice();
     console.log(computerSelection);
-    
-    // If player wins, gives a message and a score, otherwise its a tie or a point to the computer
-    if (playerSelection.toLowerCase() === computerSelection){
-        console.log(playerScore);
-        console.log(computerScore);
-        return "It is a tie...";
-    }else if (playerSelection.toLowerCase() ==="rock" && computerSelection === "scissors"){
-        playerScore++;
-        console.log(playerScore);
-        console.log(computerScore);
-        return "You won, Rock beats Scissors!";
-    } else if (playerSelection.toLowerCase() ==="paper" && computerSelection === "rock"){
-        playerScore++;
-        console.log(playerScore);
-        console.log(computerScore);
-        return "You won, Paper beats Rock!";
-    } else if (playerSelection.toLowerCase() === "scissors" && computerSelection === "paper") {
-        playerScore++;
-        console.log(playerScore);
-        console.log(computerScore);
-        return "You won, Scissors beat Paper!";
-    } else if (playerSelection.toLowerCase() === ""){
-        return "Come ooon, choose something!";
-    } else{
-        computerScore++;
-        console.log(playerScore);
-        console.log(computerScore);
-        return "You lost, hahaaa!";
+    let wText = document.getElementById("winnerText");
+    wText.style.color = "black";
+
         
-    } 
+            if (playerSelection === computerSelection){
+                console.log(playerScore);
+                console.log(computerScore);
+                return "It is a tie...";
+            }else if ((playerSelection ==="rock" && computerSelection === "scissors")||
+                    (playerSelection ==="paper" && computerSelection === "rock")||
+                    (playerSelection === "scissors" && computerSelection === "paper")){
+                playerScore++;
+                addScoreToPlayer();
+                addScoreToComputer();
+                console.log(playerScore);
+                console.log(computerScore);
+                if(playerScore===5){
+                    wText.textContent="Congrats, you won!";
+                }
+
+
+            } else{
+                computerScore++;
+                addScoreToPlayer();
+                addScoreToComputer();
+                console.log(playerScore);
+                console.log(computerScore);
+                if(computerScore === 5){
+                    wText.textContent="You lost the game!";
+                }
+            }       
+    }
     
 
-}
+//choosing a button and start the game.
+chooseRock = document.getElementById("rock").addEventListener('click', () =>{ 
+    playGame(playerSelection = "rock");
+    console.log(playerSelection);
+});
 
-// Best of five, at the end of the last round, the function returns the winner side.
-function game(){
-    for (let i=0; i < 5; i++){
-        playGame();
-    }
-    if(playerScore > computerScore){
-        return "Congrats, you have won the game!"
-    }else if (playerScore < computerScore){
-        return "Meh, you lost the game"
-    } else return "It's a tie baby!"
-}
+choosePaper = document.getElementById("paper").addEventListener('click', () =>{
+    playGame(playerSelection = "paper");
+    console.log(playerSelection);
+});
 
-console.log(game())
+chooseScissors = document.getElementById("scissors").addEventListener('click', () =>{
+    playGame(playerSelection = "scissors");
+    console.log(playerSelection);
+})
+
+
+
+
+
+
+
+    
+
+
+
+
 
 
